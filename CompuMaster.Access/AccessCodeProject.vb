@@ -11,7 +11,7 @@ Public Class AccessCodeProject
     Public ReadOnly Property AllModules() As AccessAllObjectsCollection
         Get
             If _AllModules Is Nothing Then
-                _AllModules = New AccessAllObjectsCollection(Me, Me.InvokeFunction(Of Object)("AllModules"))
+                _AllModules = New AccessAllObjectsCollection(Me, Me.InvokePropertyGet(Of Object)("AllModules"))
             End If
             Return _AllModules
         End Get

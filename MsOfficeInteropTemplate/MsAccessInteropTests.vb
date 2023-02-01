@@ -60,7 +60,8 @@ Namespace CompuMaster.Test.MsAccess
                     instance.ComObjectStronglyTyped.Quit()
                 End Sub,
                 Nothing)
-
+            AppWithNordwind.OpenCurrentDatabase(databasePath, False)
+            '_NordwindDb = AppWithNordwind.CurrentProject
             _DbEngine = New ComChildObject(Of Microsoft.Office.Interop.Access.Dao._DBEngine, ComRootObject(Of Microsoft.Office.Interop.Access.Application))(_AppWithNordwind, AppWithNordwind.DBEngine)
             _NordwindDb = New ComChildObject(Of Microsoft.Office.Interop.Access.Dao.Database, ComRootObject(Of Microsoft.Office.Interop.Access.Application))(_AppWithNordwind, DbEngine.OpenDatabase(databasePath))
             Assert.NotNull(_NordwindDb.ComObjectStronglyTyped.Name)
@@ -81,6 +82,14 @@ Namespace CompuMaster.Test.MsAccess
         Public Sub CurrentProject()
             Assert.IsNotNull(_NordwindDb.ComObjectStronglyTyped)
             Assert.IsNotNull(AppWithNordwind.CurrentProject)
+        End Sub
+
+        <Test>
+        Public Sub Run()
+            Console.WriteLine(_AppWithNordwind.ComObjectStronglyTyped.Visible.ToString)
+            Console.WriteLine(_AppWithNordwind.InvokeFunction(Of Boolean)("Run", "HasSourceCode").ToString)
+            Console.WriteLine(_AppWithNordwind.ComObjectStronglyTyped.Run("HasSourceCode").ToString)
+            _AppWithNordwind.ComObjectStronglyTyped.Run("DoKbTestWithParameter", "Hello from VB .NET Client")
         End Sub
 
         <Test>
@@ -122,7 +131,7 @@ Namespace CompuMaster.Test.MsAccess
         <Test>
         Public Sub VBE()
             Assert.IsNotNull(AppWithNordwind.VBE)
-            Assert.Zero(AppWithNordwind.VBE.VBProjects.Count)
+            Assert.AreEqual(1, AppWithNordwind.VBE.VBProjects.Count)
             Assert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0))
             Assert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).Name)
             Assert.NotZero(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Count)

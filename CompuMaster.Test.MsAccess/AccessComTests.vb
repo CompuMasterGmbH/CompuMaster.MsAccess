@@ -20,6 +20,7 @@ Namespace CompuMaster.Test.MsAccess
             Dim App As New Global.CompuMaster.MsAccess.AccessApplication
             Dim DbEngine = App.DBEngine
             Dim Db = DbEngine.OpenDatabase(databasePath)
+            App.InvokeMethod("OpenCurrentDatabase", databasePath, False)
             Return App
         End Function
 
@@ -59,7 +60,7 @@ Namespace CompuMaster.Test.MsAccess
         <Test>
         Public Sub CodeProject()
             Assert.IsNotNull(AppWithNordwind.CodeProject)
-            Console.WriteLine(AppWithNordwind.CodeProject.GetPublicMembersInfo)
+            'Console.WriteLine(AppWithNordwind.CodeProject.GetPublicMembersInfo)
             Assert.IsNotNull(AppWithNordwind.CodeProject.AllModules)
             Assert.NotZero(AppWithNordwind.CodeProject.AllModules.Count)
         End Sub
@@ -69,6 +70,14 @@ Namespace CompuMaster.Test.MsAccess
             Assert.IsNotNull(AppWithNordwind.VBE)
             Assert.IsNotNull(AppWithNordwind.VBE.Count)
         End Sub
+
+        <Test>
+        Public Sub Run()
+            AppWithNordwind.Visible = True
+            Console.WriteLine(AppWithNordwind.Run(Of Boolean)("HasSourceCode").ToString)
+            Assert.Pass()
+        End Sub
+
 
         'Public Sub CodeData()
         '    Dim App As Global.CompuMaster.MsAccess.AccessApplication = OpenAccessAppAndDatabase(TestEnvironment.TestFiles.TestFileNorthwindDatabase.FullName)

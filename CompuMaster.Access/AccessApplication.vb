@@ -129,6 +129,10 @@ Public Class AccessApplication
         End Get
     End Property
 
+    Public Function Run(Of T)(vbaMethod As String) As T
+        Me.InvokeFunction(Of T)("Run", vbaMethod)
+    End Function
+
     Public Sub Close()
         Me.Quit()
     End Sub
