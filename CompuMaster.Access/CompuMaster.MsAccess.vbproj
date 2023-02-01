@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>CompuMaster.MsAccess</RootNamespace>
+    <TargetFrameworks>net48;net6.0</TargetFrameworks>
+    <OptionStrict>On</OptionStrict>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CompuMaster.ComInterop" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

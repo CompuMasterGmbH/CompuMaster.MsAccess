@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CompuMaster.AccessDb.ExportVba</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <OptionStrict>On</OptionStrict>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="test_data\NorthwindDatabase.accdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="test_data\NorthwindDatabase.accdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompuMaster.Access\CompuMaster.MsAccess.vbproj" />
+  </ItemGroup>
+
+</Project>

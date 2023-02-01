@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ExportVba": {
+      "commandName": "Project",
+      "commandLineArgs": "-f vba-export",
+      "workingDirectory": "./test_data"
+    }
+  }
+}
