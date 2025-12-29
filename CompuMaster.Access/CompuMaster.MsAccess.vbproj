@@ -7,6 +7,13 @@
     <Version>0.1.0</Version>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/"/>
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="CompuMaster.ComInterop" Version="1.0.1" />
   </ItemGroup>
