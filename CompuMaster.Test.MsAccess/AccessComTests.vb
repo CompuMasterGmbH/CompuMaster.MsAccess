@@ -1,4 +1,5 @@
 Imports NUnit.Framework
+Imports NUnit.Framework.Legacy
 
 Namespace CompuMaster.Test.MsAccess
 
@@ -26,30 +27,30 @@ Namespace CompuMaster.Test.MsAccess
 
         <Test>
         Public Sub AccessBasicObjectAccess()
-            Assert.IsNotNull(AppWithNordwind)
+            ClassicAssert.IsNotNull(AppWithNordwind)
         End Sub
 
         <Test>
         Public Sub CurrentDb()
-            Assert.IsNotNull(AppWithNordwind.CurrentDb)
+            ClassicAssert.IsNotNull(AppWithNordwind.CurrentDb)
         End Sub
 
         <Test>
         Public Sub CurrentProject()
-            Assert.IsNotNull(AppWithNordwind.CurrentProject)
+            ClassicAssert.IsNotNull(AppWithNordwind.CurrentProject)
         End Sub
 
         <Test>
         Public Sub Modules()
-            Assert.IsNotNull(AppWithNordwind.Modules)
-            Assert.IsNotNull(AppWithNordwind.Modules.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.Modules)
+            ClassicAssert.IsNotNull(AppWithNordwind.Modules.Count)
         End Sub
 
         <Test>
         Public Sub CodeData()
-            Assert.IsNotNull(AppWithNordwind.CodeData)
+            ClassicAssert.IsNotNull(AppWithNordwind.CodeData)
             'Assert.IsNotNull(AppWithNordwind.CodeData.AllQueries)
-            Assert.IsNotNull(AppWithNordwind.CodeData.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.CodeData.Count)
             If False Then
                 'Compilation test only
                 AppWithNordwind.CodeData.Item(0).Parent.Parent.Quit()
@@ -59,16 +60,16 @@ Namespace CompuMaster.Test.MsAccess
 
         <Test>
         Public Sub CodeProject()
-            Assert.IsNotNull(AppWithNordwind.CodeProject)
+            ClassicAssert.IsNotNull(AppWithNordwind.CodeProject)
             'Console.WriteLine(AppWithNordwind.CodeProject.GetPublicMembersInfo)
-            Assert.IsNotNull(AppWithNordwind.CodeProject.AllModules)
-            Assert.NotZero(AppWithNordwind.CodeProject.AllModules.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.CodeProject.AllModules)
+            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllModules.Count)
         End Sub
 
         <Test>
         Public Sub VBE()
-            Assert.IsNotNull(AppWithNordwind.VBE)
-            Assert.IsNotNull(AppWithNordwind.VBE.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE)
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE.Count)
         End Sub
 
         <Test>
@@ -81,8 +82,8 @@ Namespace CompuMaster.Test.MsAccess
 
         'Public Sub CodeData()
         '    Dim App As Global.CompuMaster.MsAccess.AccessApplication = OpenAccessAppAndDatabase(TestEnvironment.TestFiles.TestFileNorthwindDatabase.FullName)
-        '    Assert.IsNotNull(App.Modules)
-        '    Assert.IsNotNull(App.Modules.Count)
+        '    ClassicAssert.IsNotNull(App.Modules)
+        '    ClassicAssert.IsNotNull(App.Modules.Count)
         '    ComObject.VBE
         '    ComObject.DBEngine
         '    ComObject.CodeData.AllFunctions.Item

@@ -1,6 +1,7 @@
 Imports CompuMaster.ComInterop
 Imports Microsoft.Office.Interop.Access.Dao
 Imports NUnit.Framework
+Imports NUnit.Framework.Legacy
 
 Namespace CompuMaster.Test.MsAccess
 
@@ -64,24 +65,24 @@ Namespace CompuMaster.Test.MsAccess
             '_NordwindDb = AppWithNordwind.CurrentProject
             _DbEngine = New ComChildObject(Of Microsoft.Office.Interop.Access.Dao._DBEngine, ComRootObject(Of Microsoft.Office.Interop.Access.Application))(_AppWithNordwind, AppWithNordwind.DBEngine)
             _NordwindDb = New ComChildObject(Of Microsoft.Office.Interop.Access.Dao.Database, ComRootObject(Of Microsoft.Office.Interop.Access.Application))(_AppWithNordwind, DbEngine.OpenDatabase(databasePath))
-            Assert.NotNull(_NordwindDb.ComObjectStronglyTyped.Name)
+            ClassicAssert.IsNotNull(_NordwindDb.ComObjectStronglyTyped.Name)
         End Sub
 
         <Test>
         Public Sub AccessBasicObjectAccess()
-            Assert.IsNotNull(AppWithNordwind)
+            ClassicAssert.IsNotNull(AppWithNordwind)
         End Sub
 
         <Test>
         Public Sub CurrentDb()
-            Assert.IsNotNull(_NordwindDb.ComObjectStronglyTyped)
-            Assert.IsNull(AppWithNordwind.CurrentDb)
+            ClassicAssert.IsNotNull(_NordwindDb.ComObjectStronglyTyped)
+            ClassicAssert.IsNull(AppWithNordwind.CurrentDb)
         End Sub
 
         <Test>
         Public Sub CurrentProject()
-            Assert.IsNotNull(_NordwindDb.ComObjectStronglyTyped)
-            Assert.IsNotNull(AppWithNordwind.CurrentProject)
+            ClassicAssert.IsNotNull(_NordwindDb.ComObjectStronglyTyped)
+            ClassicAssert.IsNotNull(AppWithNordwind.CurrentProject)
         End Sub
 
         <Test>
@@ -94,55 +95,55 @@ Namespace CompuMaster.Test.MsAccess
 
         <Test>
         Public Sub Modules()
-            Assert.IsNotNull(AppWithNordwind.Modules)
+            ClassicAssert.IsNotNull(AppWithNordwind.Modules)
             For Each Item As Microsoft.Office.Interop.Access.Module In AppWithNordwind.Modules
-                Assert.IsNotNull(Item)
+                ClassicAssert.IsNotNull(Item)
                 Console.WriteLine("Found Module: " & Item.Name)
             Next
-            Assert.IsNotNull(AppWithNordwind.Modules.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.Modules.Count)
         End Sub
 
         <Test>
         Public Sub CodeData()
-            Assert.IsNotNull(AppWithNordwind.CodeData)
-            Assert.NotZero(AppWithNordwind.CodeData.AllTables.Count)
-            Assert.NotZero(AppWithNordwind.CodeData.AllQueries.Count)
-            Assert.NotZero(AppWithNordwind.CodeData.AllViews.Count)
-            Assert.NotZero(AppWithNordwind.CodeData.AllStoredProcedures.Count)
-            Assert.NotZero(AppWithNordwind.CodeData.AllFunctions.Count)
-            Assert.NotZero(AppWithNordwind.CodeData.AllDatabaseDiagrams.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.CodeData)
+            ClassicAssert.NotZero(AppWithNordwind.CodeData.AllTables.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeData.AllQueries.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeData.AllViews.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeData.AllStoredProcedures.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeData.AllFunctions.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeData.AllDatabaseDiagrams.Count)
         End Sub
 
         <Test>
         Public Sub CodeProject()
-            Assert.IsNotNull(AppWithNordwind.CodeProject)
+            ClassicAssert.IsNotNull(AppWithNordwind.CodeProject)
             Dim M = AppWithNordwind.CodeProject.AllModules
-            Assert.NotZero(M.Count)
+            ClassicAssert.NotZero(M.Count)
             Dim M0 = M(0)
-            Assert.NotNull(M0.Name)
+            ClassicAssert.IsNotNull(M0.Name)
 
-            Assert.NotZero(AppWithNordwind.CodeProject.AllModules.Count)
-            Assert.NotZero(AppWithNordwind.CodeProject.AllMacros.Count)
-            Assert.NotZero(AppWithNordwind.CodeProject.AllForms.Count)
-            Assert.NotZero(AppWithNordwind.CodeProject.AllReports.Count)
-            Assert.NotZero(AppWithNordwind.CodeProject.AllDataAccessPages.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllModules.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllMacros.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllForms.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllReports.Count)
+            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllDataAccessPages.Count)
         End Sub
 
         <Test>
         Public Sub VBE()
-            Assert.IsNotNull(AppWithNordwind.VBE)
-            Assert.AreEqual(1, AppWithNordwind.VBE.VBProjects.Count)
-            Assert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0))
-            Assert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).Name)
-            Assert.NotZero(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Count)
-            Assert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Item(0))
-            Assert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Item(0).Type)
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE)
+            ClassicAssert.AreEqual(1, AppWithNordwind.VBE.VBProjects.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0))
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).Name)
+            ClassicAssert.NotZero(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Count)
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Item(0))
+            ClassicAssert.IsNotNull(AppWithNordwind.VBE.VBProjects.Item(0).VBComponents.Item(0).Type)
         End Sub
 
         'Public Sub CodeData()
         '    Dim App As Global.CompuMaster.MsAccess.AccessApplication = OpenAccessAppAndDatabase(TestEnvironment.TestFiles.TestFileNorthwindDatabase.FullName)
-        '    Assert.IsNotNull(App.Modules)
-        '    Assert.IsNotNull(App.Modules.Count)
+        '    ClassicAssert.IsNotNull(App.Modules)
+        '    ClassicAssert.IsNotNull(App.Modules.Count)
         '    ComObject.VBE
         '    ComObject.DBEngine
         '    ComObject.CodeData.AllFunctions.Item
