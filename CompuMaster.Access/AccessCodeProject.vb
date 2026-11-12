@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class AccessCodeProject
-    Inherits ComChildObject(Of Object, AccessApplication)
+    Inherits ComChildObject(Of AccessApplication, Object)
 
     Friend Sub New(parent As AccessApplication, comObject As Object)
         MyBase.New(parent, comObject)
@@ -11,7 +11,7 @@ Public Class AccessCodeProject
     Public ReadOnly Property AllModules() As AccessAllObjectsCollection
         Get
             If _AllModules Is Nothing Then
-                _AllModules = New AccessAllObjectsCollection(Me, Me.InvokePropertyGet(Of Object)("AllModules"))
+                _AllModules = New AccessAllObjectsCollection(Me)
             End If
             Return _AllModules
         End Get

@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class CodeDataAccessObject
-    Inherits ComChildObject(Of Object, CodeDataAllObjectsCollection)
+    Inherits ComChildObject(Of CodeDataAllObjectsCollection, Object)
 
     Friend Sub New(parent As CodeDataAllObjectsCollection, comObject As Object)
         MyBase.New(parent, comObject)

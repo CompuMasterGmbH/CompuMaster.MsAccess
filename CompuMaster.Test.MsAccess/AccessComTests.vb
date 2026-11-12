@@ -1,9 +1,10 @@
+Imports CompuMaster.ComInterop
 Imports NUnit.Framework
 Imports NUnit.Framework.Legacy
 
 Namespace CompuMaster.Test.MsAccess
 
-    <NonParallelizable>
+    <NonParallelizable, Apartment(Threading.ApartmentState.STA)>
     Public Class AccessComTests
 
         <SetUp>
@@ -12,7 +13,13 @@ Namespace CompuMaster.Test.MsAccess
 
         <OneTimeSetUp>
         Public Sub OneTimeSetUp()
+            If Not ComTools.IsPlatformSupportingComInteropAndMsExcelAppInstalled("Access.Application") Then Assert.Ignore("Microsoft Access COM automation is unavailable.")
             AppWithNordwind = OpenAccessAppAndDatabase(TestEnvironment.TestFiles.TestFileNorthwindDatabase.FullName)
+        End Sub
+
+        <OneTimeTearDown>
+        Public Sub CloseAccess()
+            AppWithNordwind?.Dispose()
         End Sub
 
         Private AppWithNordwind As Global.CompuMaster.MsAccess.AccessApplication
@@ -47,32 +54,26 @@ Namespace CompuMaster.Test.MsAccess
         End Sub
 
         <Test>
-        Public Sub CodeData()
-            ClassicAssert.IsNotNull(AppWithNordwind.CodeData)
-            'Assert.IsNotNull(AppWithNordwind.CodeData.AllQueries)
-            ClassicAssert.IsNotNull(AppWithNordwind.CodeData.Count)
-            If False Then
-                'Compilation test only
-                AppWithNordwind.CodeData.Item(0).Parent.Parent.Quit()
-                AppWithNordwind.CodeData.Parent.InvokeMethod("Quit")
-            End If
+        Public Sub CurrentDataQueries()
+            Dim data = AppWithNordwind.CreateWrapperAndRegisterComChildForDisposal(AppWithNordwind.InvokePropertyGet(Of Object)("CurrentData"), Nothing, Nothing, Nothing)
+            Dim queries = data.CreateWrapperAndRegisterComChildForDisposal(data.InvokePropertyGet(Of Object)("AllQueries"), Nothing, Nothing, Nothing)
+            Assert.That(queries.InvokePropertyGet(Of Integer)("Count"), [Is].GreaterThan(0))
         End Sub
 
         <Test>
-        Public Sub CodeProject()
-            ClassicAssert.IsNotNull(AppWithNordwind.CodeProject)
-            'Console.WriteLine(AppWithNordwind.CodeProject.GetPublicMembersInfo)
-            ClassicAssert.IsNotNull(AppWithNordwind.CodeProject.AllModules)
-            ClassicAssert.NotZero(AppWithNordwind.CodeProject.AllModules.Count)
+        Public Sub CurrentProjectModules()
+            Dim project = AppWithNordwind.CreateWrapperAndRegisterComChildForDisposal(AppWithNordwind.InvokePropertyGet(Of Object)("CurrentProject"), Nothing, Nothing, Nothing)
+            Dim modules = project.CreateWrapperAndRegisterComChildForDisposal(project.InvokePropertyGet(Of Object)("AllModules"), Nothing, Nothing, Nothing)
+            Assert.That(modules.InvokePropertyGet(Of Integer)("Count"), [Is].GreaterThan(0))
         End Sub
 
         <Test>
         Public Sub VBE()
             ClassicAssert.IsNotNull(AppWithNordwind.VBE)
-            ClassicAssert.IsNotNull(AppWithNordwind.VBE.Count)
+            Assert.That(AppWithNordwind.VBE.InvokePropertyGet(Of String)("Version"), [Is].Not.Empty)
         End Sub
 
-        <Test>
+        <Test, Explicit("Requires trusted VBA in the test database and displays Microsoft Access.")>
         Public Sub Run()
             AppWithNordwind.Visible = True
             Console.WriteLine(AppWithNordwind.Run(Of Boolean)("HasSourceCode").ToString)

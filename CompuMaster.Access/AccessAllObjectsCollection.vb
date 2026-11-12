@@ -1,10 +1,10 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class AccessAllObjectsCollection
-    Inherits ObjectReadOnlyCollectionBase(Of Object, AccessAllObjectsCollection, ComObjectBase, Object, AccessObject)
+    Inherits ObjectReadOnlyCollectionBase(Of ComObjectBase, Object, AccessAllObjectsCollection, Object, AccessObject)
 
-    Friend Sub New(parent As ComObjectBase, comObject As Object)
-        MyBase.New(parent, comObject)
+    Friend Sub New(parent As ComObjectBase)
+        MyBase.New(parent, parent.InvokePropertyGet(Of Object)("AllModules"))
     End Sub
 
     Public Overrides ReadOnly Property Count As Integer

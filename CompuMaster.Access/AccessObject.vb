@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class AccessObject
-    Inherits ComChildObject(Of Object, AccessAllObjectsCollection)
+    Inherits ComChildObject(Of AccessAllObjectsCollection, Object)
 
     Friend Sub New(parent As AccessAllObjectsCollection, comObject As Object)
         MyBase.New(parent, comObject)
