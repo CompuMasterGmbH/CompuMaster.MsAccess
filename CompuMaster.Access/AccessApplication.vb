@@ -1,11 +1,10 @@
-﻿Imports CompuMaster.ComInterop
-Imports System.IO
+﻿Imports CompuMaster.ComInterop.Office
 
 Public Class AccessApplication
-    Inherits ComObjectBase
+    Inherits OfficeApplication
 
     Public Sub New()
-        MyBase.New(Nothing, CreateObject("Access.Application"))
+        MyBase.New("Access.Application", "MSACCESS", True)
     End Sub
 
     Public Property UserControl As Boolean
@@ -34,7 +33,7 @@ Public Class AccessApplication
         Return _DBEngine
     End Function
 
-    Public ReadOnly Property IsClosed As Boolean
+    Public Shadows ReadOnly Property IsClosed As Boolean
         Get
             Return MyBase.IsDisposedComObject
         End Get
@@ -130,10 +129,10 @@ Public Class AccessApplication
     End Property
 
     Public Function Run(Of T)(vbaMethod As String) As T
-        Me.InvokeFunction(Of T)("Run", vbaMethod)
+        Return Me.InvokeFunction(Of T)("Run", vbaMethod)
     End Function
 
-    Public Sub Close()
+    Public Overrides Sub Close()
         Me.Quit()
     End Sub
 
@@ -154,9 +153,10 @@ Public Class AccessApplication
         If Me._VBProject IsNot Nothing Then Me._VBProject.Dispose()
     End Sub
 
-    Protected Overrides Sub OnClosing()
-        InvokeMethod("Quit")
-    End Sub
+    ''' <inheritdoc/>
+    Protected Overrides Function GetApplicationWindow() As IntPtr
+        Return New IntPtr(InvokeFunction(Of Integer)("hWndAccessApp"))
+    End Function
 
     Protected Overrides Sub OnClosed()
         GC.Collect(2, GCCollectionMode.Forced, True)

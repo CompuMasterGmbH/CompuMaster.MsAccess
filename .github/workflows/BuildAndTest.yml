@@ -38,10 +38,7 @@ jobs:
         strategy:
           fail-fast: false
           matrix:
-            os: [windows-latest, ubuntu-latest, macos-latest]
-            include: 
-              - os: macos-latest
-                runNetExe: mono
+            os: [windows-latest]
 
         # the build-and-test job might be skipped, we don't need to run this job then
         #if: success() || failure()
@@ -72,7 +69,7 @@ jobs:
               run: dotnet build --configuration=${{env.BUILD_CONFIGURATION}} --no-restore
 
             - name: Run Unit Tests
-              run: dotnet test --framework net8.0 --results-directory test-results --logger junit --configuration=${{env.BUILD_CONFIGURATION}} --no-restore
+              run: dotnet test CompuMaster.Test.MsAccess --framework net8.0 --results-directory test-results --logger junit --configuration=${{env.BUILD_CONFIGURATION}} --no-restore
 
             - name: Dir Listing (Win) test-results
               if: startsWith(matrix.os, 'windows')

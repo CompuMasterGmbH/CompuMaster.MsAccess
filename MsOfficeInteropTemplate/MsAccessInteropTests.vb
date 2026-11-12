@@ -5,7 +5,7 @@ Imports NUnit.Framework.Legacy
 
 Namespace CompuMaster.Test.MsAccess
 
-    <NonParallelizable>
+    <NonParallelizable, Apartment(Threading.ApartmentState.STA)>
     Public Class MsAccessInteropTests
 
         Public Sub CompileTests_MsAccessInteropApp()
@@ -29,7 +29,13 @@ Namespace CompuMaster.Test.MsAccess
 
         <OneTimeSetUp>
         Public Sub OneTimeSetUp()
+            If Not ComTools.IsPlatformSupportingComInteropAndMsExcelAppInstalled("Access.Application") Then Assert.Ignore("Microsoft Access COM automation is unavailable.")
             OpenAccessAppAndDatabase(TestEnvironment.TestFiles.TestFileNorthwindDatabase.FullName)
+        End Sub
+
+        <OneTimeTearDown>
+        Public Sub CloseAccess()
+            _AppWithNordwind?.Dispose()
         End Sub
 
         Private _AppWithNordwind As ComRootObject(Of Microsoft.Office.Interop.Access.Application)
@@ -39,14 +45,14 @@ Namespace CompuMaster.Test.MsAccess
             End Get
         End Property
 
-        Private _DbEngine As ComChildObject(Of Microsoft.Office.Interop.Access.Dao._DBEngine, ComRootObject(Of Microsoft.Office.Interop.Access.Application))
+        Private _DbEngine As ComChildObject(Of ComRootObject(Of Microsoft.Office.Interop.Access.Application), Microsoft.Office.Interop.Access.Dao._DBEngine)
         Private ReadOnly Property DbEngine As Microsoft.Office.Interop.Access.Dao._DBEngine
             Get
                 Return _DbEngine.ComObjectStronglyTyped
             End Get
         End Property
 
-        Private _NordwindDb As ComChildObject(Of Microsoft.Office.Interop.Access.Dao.Database, ComRootObject(Of Microsoft.Office.Interop.Access.Application))
+        Private _NordwindDb As ComChildObject(Of ComRootObject(Of Microsoft.Office.Interop.Access.Application), Microsoft.Office.Interop.Access.Dao.Database)
         Private ReadOnly Property NordwindDb As Microsoft.Office.Interop.Access.Dao.Database
             Get
                 Return _NordwindDb.ComObjectStronglyTyped
@@ -58,13 +64,13 @@ Namespace CompuMaster.Test.MsAccess
                 New Microsoft.Office.Interop.Access.Application(),
                 Nothing,
                 Sub(instance)
-                    instance.ComObjectStronglyTyped.Quit()
+                    DirectCast(instance, ComRootObject(Of Microsoft.Office.Interop.Access.Application)).ComObjectStronglyTyped.Quit()
                 End Sub,
                 Nothing)
             AppWithNordwind.OpenCurrentDatabase(databasePath, False)
             '_NordwindDb = AppWithNordwind.CurrentProject
-            _DbEngine = New ComChildObject(Of Microsoft.Office.Interop.Access.Dao._DBEngine, ComRootObject(Of Microsoft.Office.Interop.Access.Application))(_AppWithNordwind, AppWithNordwind.DBEngine)
-            _NordwindDb = New ComChildObject(Of Microsoft.Office.Interop.Access.Dao.Database, ComRootObject(Of Microsoft.Office.Interop.Access.Application))(_AppWithNordwind, DbEngine.OpenDatabase(databasePath))
+            _DbEngine = New ComChildObject(Of ComRootObject(Of Microsoft.Office.Interop.Access.Application), Microsoft.Office.Interop.Access.Dao._DBEngine)(_AppWithNordwind, AppWithNordwind.DBEngine)
+            _NordwindDb = New ComChildObject(Of ComRootObject(Of Microsoft.Office.Interop.Access.Application), Microsoft.Office.Interop.Access.Dao.Database)(_AppWithNordwind, DbEngine.OpenDatabase(databasePath))
             ClassicAssert.IsNotNull(_NordwindDb.ComObjectStronglyTyped.Name)
         End Sub
 

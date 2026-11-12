@@ -1,14 +1,11 @@
 Imports CompuMaster.ComInterop
 
 Public Class AccessDBEngine
-    Inherits ComObjectBase
+    Inherits ComChildObject(Of AccessApplication, Object)
 
     Friend Sub New(parentItemResponsibleForDisposal As ComObjectBase, app As AccessApplication)
-        MyBase.New(parentItemResponsibleForDisposal, app.InvokePropertyGet(Of Object)("DBEngine"))
-        Me.Parent = app
+        MyBase.New(parentItemResponsibleForDisposal, app, app.InvokePropertyGet(Of Object)("DBEngine"))
     End Sub
-
-    Friend ReadOnly Parent As AccessApplication
 
     Public Function OpenDatabase(path As String) As AccessDatabase
         If Parent.CurrentDb IsNot Nothing Then Throw New InvalidOperationException("Close the current database before opening next database")

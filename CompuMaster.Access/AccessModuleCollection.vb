@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class AccessModuleCollection
-    Inherits ObjectReadOnlyCollectionBase(Of Object, AccessModuleCollection, AccessApplication, Object, AccessModule)
+    Inherits ObjectReadOnlyCollectionBase(Of AccessApplication, Object, AccessModuleCollection, Object, AccessModule)
 
     Friend Sub New(parent As AccessApplication, comObject As Object)
         MyBase.New(parent, comObject)

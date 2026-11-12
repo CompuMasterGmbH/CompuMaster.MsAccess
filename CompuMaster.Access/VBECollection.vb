@@ -1,6 +1,6 @@
 ﻿Imports CompuMaster.ComInterop
 Public Class VBECollection
-    Inherits ObjectReadOnlyCollectionBase(Of Object, VBECollection, AccessApplication, Object, VBE)
+    Inherits ObjectReadOnlyCollectionBase(Of AccessApplication, Object, VBECollection, Object, VBE)
 
     Friend Sub New(parent As AccessApplication, comObject As Object)
         MyBase.New(parent, comObject)

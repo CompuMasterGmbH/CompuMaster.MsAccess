@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class VBProjectCollection
-    Inherits ObjectReadOnlyCollectionBase(Of Object, VBProjectCollection, AccessApplication, Object, VBProject)
+    Inherits ObjectReadOnlyCollectionBase(Of AccessApplication, Object, VBProjectCollection, Object, VBProject)
 
     Friend Sub New(parent As AccessApplication, comObject As Object)
         MyBase.New(parent, comObject)

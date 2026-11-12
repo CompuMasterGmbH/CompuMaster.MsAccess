@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class CodeProjectCollection
-    Inherits ObjectReadOnlyCollectionBase(Of Object, CodeProjectCollection, AccessApplication, Object, CodeProject)
+    Inherits ObjectReadOnlyCollectionBase(Of AccessApplication, Object, CodeProjectCollection, Object, CodeProject)
 
     Friend Sub New(parent As AccessApplication, comObject As Object)
         MyBase.New(parent, comObject)

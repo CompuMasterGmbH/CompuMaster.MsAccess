@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class CodeProjectAccessObject
-    Inherits ComChildObject(Of Object, CodeprojectAllObjectsCollection)
+    Inherits ComChildObject(Of CodeprojectAllObjectsCollection, Object)
 
     Friend Sub New(parent As CodeprojectAllObjectsCollection, comObject As Object)
         MyBase.New(parent, comObject)

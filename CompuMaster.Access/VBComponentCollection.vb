@@ -1,7 +1,7 @@
 ﻿Imports CompuMaster.ComInterop
 
 Public Class VBComponentCollection
-    Inherits ObjectReadOnlyCollectionBase(Of Object, VBComponentCollection, AccessApplication, Object, VBComponent)
+    Inherits ObjectReadOnlyCollectionBase(Of AccessApplication, Object, VBComponentCollection, Object, VBComponent)
 
     Friend Sub New(parent As AccessApplication, comObject As Object)
         MyBase.New(parent, comObject)
