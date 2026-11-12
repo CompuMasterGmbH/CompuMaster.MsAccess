@@ -30,6 +30,7 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
             contents: write
+            id-token: write
         #if: false # always skip job
 
         steps:
@@ -70,9 +71,15 @@ jobs:
                   name: NuGet packages
                   path: packages/*
 
+            - name: Sign in to NuGet with Trusted Publishing
+              id: nuget-login
+              uses: NuGet/login@v1
+              with:
+                  user: ${{ vars.NUGET_USER || secrets.NUGET_USER || 'compumaster' }}
+
             - name: Push existing package IDs to NuGet
               env:
-                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+                  NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
               run: |
                   for package in packages/*.nupkg; do
                       name=$(basename "$package")
